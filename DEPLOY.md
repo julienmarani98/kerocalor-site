@@ -24,9 +24,16 @@ Il pull via il pannello/MCP Hostinger falliva (cred ghcr scadute in
 `docker login ghcr.io -u julienmarani98` (token GitHub valido) via SSH.
 Se in futuro il pull fallisce di nuovo: rifare il `docker login ghcr.io`.
 
+## Admin
+- **URL:** https://kerocalor.maranigroup.it/admin (password in `.env` sul VPS — `ADMIN_PASSWORD`).
+- Funzioni: aggiungi/modifica/elimina prodotti, upload foto (resize formato fisso 1:1 / 16:9 / 3:4 via Jimp), flag "in evidenza", contatti (telefono/WhatsApp/email/indirizzo) editabili.
+- **Store dati:** file JSON + immagini su volume Docker `kerocalor_data` (`/app/data`). Persistono ai redeploy.
+- **Auth:** cookie HMAC firmato (`SESSION_SECRET`). `ADMIN_PASSWORD` e `SESSION_SECRET` in `/docker/kerocalor-site/.env` (NON nel repo).
+- Pagine pubbliche `force-dynamic`: leggono lo store a ogni richiesta → modifiche admin subito online.
+
 ## TODO prossime fasi
-- [ ] Admin: CRUD articoli/prezzi/foto + contatti (WhatsApp/email) editabili (DB + auth)
-- [ ] Upload foto con resize a formato fisso (1:1 prodotti) — sharp
+- [ ] Foto/articoli reali ex novo (sostituire placeholder fornitori)
+- [ ] Pagina dettaglio prodotto
 - [ ] Foto e articoli reali ex novo (Veneta Cucine usa immagini proprie; Tomasella da settembre)
 - [ ] Pagine: storia estesa, dettaglio prodotto, cataloghi fornitori (PDF)
 - [ ] SEO: sitemap, schema LocalBusiness, Google Business
