@@ -1,7 +1,7 @@
-import { Product } from "@/lib/catalog";
-import { waLink, mailLink } from "@/lib/site-config";
+import type { StoredProduct, Settings } from "@/lib/store";
+import { waUrl, mailUrl } from "@/lib/links";
 
-export default function ProductCard({ p }: { p: Product }) {
+export default function ProductCard({ p, settings }: { p: StoredProduct; settings: Settings }) {
   const enquiry = `Salve, vorrei informazioni su "${p.name}".`;
   return (
     <article className="group flex flex-col">
@@ -27,10 +27,10 @@ export default function ProductCard({ p }: { p: Product }) {
         )}
 
         <div className="mt-4 flex gap-2">
-          <a href={waLink(enquiry)} target="_blank" rel="noopener" className="btn-wa flex-1 !px-3 !py-2 !text-[11px]">
+          <a href={waUrl(settings.whatsappHref, enquiry)} target="_blank" rel="noopener" className="btn-wa flex-1 !px-3 !py-2 !text-[11px]">
             WhatsApp
           </a>
-          <a href={mailLink(`Richiesta: ${p.name}`)} className="btn-light flex-1 !px-3 !py-2 !text-[11px]">
+          <a href={mailUrl(settings.email, `Richiesta: ${p.name}`)} className="btn-light flex-1 !px-3 !py-2 !text-[11px]">
             Email
           </a>
         </div>

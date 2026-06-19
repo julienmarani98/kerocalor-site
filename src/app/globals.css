@@ -109,6 +109,8 @@ body {
     transition: transform 0.25s ease-in-out 40ms;
   }
   .nav-link:hover::after { transform: scaleX(1); }
+  .on-dark .nav-link { color: rgba(255, 255, 255, 0.8); }
+  .on-dark .nav-link:hover { color: #fff; }
 
   /* ---- Product card: quadrata 1:1, swap immagine in fade ---- */
   .card-media {

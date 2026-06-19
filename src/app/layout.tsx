@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -17,18 +15,10 @@ export const metadata: Metadata = {
     "Kerocalor: stufe, caminetti, cucine, arredamento ed elettrodomestici. 3.000 mq di esposizione a Mornago, provincia di Varese. Dal 1969.",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="it" className={inter.variable}>
-      <body className="font-sans antialiased">
-        <Header />
-        <main className="min-h-screen pt-[var(--header-h)]">{children}</main>
-        <Footer />
-      </body>
+      <body className="font-sans antialiased">{children}</body>
     </html>
   );
 }

@@ -1,0 +1,31 @@
+services:
+  kerocalor-site:
+    image: ghcr.io/julienmarani98/kerocalor-site:latest
+    pull_policy: always
+    container_name: kerocalor-site
+    restart: unless-stopped
+    environment:
+      NODE_ENV: "production"
+      PORT: "3000"
+      NEXT_TELEMETRY_DISABLED: "1"
+      DATA_DIR: "/app/data"
+      ADMIN_PASSWORD: "${ADMIN_PASSWORD}"
+      SESSION_SECRET: "${SESSION_SECRET}"
+    volumes:
+      - kerocalor_data:/app/data
+    networks:
+      - traefik-public
+    labels:
+      traefik.enable: "true"
+      traefik.docker.network: "traefik-public"
+      traefik.http.routers.kerocalor.rule: "Host(`kerocalor.maranigroup.it`)"
+      traefik.http.routers.kerocalor.entrypoints: "websecure"
+      traefik.http.routers.kerocalor.tls.certresolver: "letsencrypt"
+      traefik.http.services.kerocalor.loadbalancer.server.port: "3000"
+
+networks:
+  traefik-public:
+    external: true
+
+volumes:
+  kerocalor_data:

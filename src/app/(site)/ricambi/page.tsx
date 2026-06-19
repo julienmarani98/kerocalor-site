@@ -1,4 +1,5 @@
-import { contacts, waLink, mailLink } from "@/lib/site-config";
+import { getSettings } from "@/lib/store";
+import { waUrl, mailUrl, telHref } from "@/lib/links";
 
 export const metadata = {
   title: "Ricambi stufe e caminetti — Kerocalor Mornago (VA)",
@@ -17,28 +18,29 @@ const ricambi = [
   "Schede elettroniche",
 ];
 
-export default function Ricambi() {
+export default async function Ricambi() {
+  const s = await getSettings();
   const msg = "Salve, ho bisogno di un ricambio. Modello stufa/caminetto: ... Pezzo: ...";
   return (
     <section className="bg-carbon text-white">
-      <div className="container-site py-20 lg:py-28">
+      <div className="container-site py-16 sm:py-20 lg:py-28">
         <p className="kicker text-ember">Assistenza</p>
         <h1 className="h-display reveal mt-5 max-w-3xl">Ti serve un ricambio?</h1>
-        <p className="reveal mt-6 max-w-2xl text-lg text-white/70">
+        <p className="reveal mt-6 max-w-2xl text-base text-white/70 sm:text-lg">
           Non vendiamo i ricambi online: ce li chiedi e li troviamo per te. Scrivici
           il <strong className="text-white">modello</strong> della stufa o del caminetto e il
           <strong className="text-white"> pezzo</strong> che ti serve — possibilmente con una foto.
         </p>
 
-        <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-          <a href={waLink(msg)} target="_blank" rel="noopener" className="btn-wa">
+        <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          <a href={waUrl(s.whatsappHref, msg)} target="_blank" rel="noopener" className="btn-wa">
             Contattaci su WhatsApp
           </a>
-          <a href={mailLink("Richiesta ricambio")} className="btn-ghost-white">
+          <a href={mailUrl(s.email, "Richiesta ricambio")} className="btn-ghost-white">
             Scrivici una email
           </a>
-          <a href={`tel:${contacts.phoneHref}`} className="btn-ghost-white">
-            Chiama {contacts.phone}
+          <a href={telHref(s.phoneHref)} className="btn-ghost-white">
+            Chiama {s.phone}
           </a>
         </div>
 

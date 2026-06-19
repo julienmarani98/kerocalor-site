@@ -1,7 +1,10 @@
 import Link from "next/link";
-import { contacts, hours, nav, waLink, mailLink } from "@/lib/site-config";
+import { hours, nav } from "@/lib/site-config";
+import { waUrl, mailUrl, telHref } from "@/lib/links";
+import type { Settings } from "@/lib/store";
 
-export default function Footer() {
+export default function Footer({ settings }: { settings: Settings }) {
+  const contacts = settings;
   return (
     <footer className="bg-carbon text-white">
       <div className="container-site grid gap-12 py-16 md:grid-cols-4">
@@ -34,13 +37,13 @@ export default function Footer() {
             <li>{contacts.address}</li>
             <li>{contacts.city}</li>
             <li>
-              <a href={`tel:${contacts.phoneHref}`} className="hover:text-white">Tel. {contacts.phone}</a>
+              <a href={telHref(contacts.phoneHref)} className="hover:text-white">Tel. {contacts.phone}</a>
             </li>
             <li>
-              <a href={waLink()} target="_blank" rel="noopener" className="hover:text-white">WhatsApp {contacts.whatsapp}</a>
+              <a href={waUrl(contacts.whatsappHref)} target="_blank" rel="noopener" className="hover:text-white">WhatsApp {contacts.whatsapp}</a>
             </li>
             <li>
-              <a href={mailLink()} className="hover:text-white">{contacts.email}</a>
+              <a href={mailUrl(contacts.email)} className="hover:text-white">{contacts.email}</a>
             </li>
           </ul>
         </div>
@@ -58,7 +61,7 @@ export default function Footer() {
 
       <div className="border-t border-white/10">
         <div className="container-site flex flex-col items-center justify-between gap-3 py-6 text-[11px] uppercase tracking-wider2 text-white/40 sm:flex-row">
-          <span>© {new Date().getFullYear()} {contacts.company} · P.IVA —</span>
+          <span>© {new Date().getFullYear()} Kerocalor S.r.l. · P.IVA —</span>
           <span>Mornago (VA) · Italia</span>
         </div>
       </div>

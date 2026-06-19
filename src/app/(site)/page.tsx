@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { souls, contacts } from "@/lib/site-config";
-import { featured } from "@/lib/catalog";
+import { getFeatured, getSettings } from "@/lib/store";
 import ProductCard from "@/components/ProductCard";
 import ContactCTA from "@/components/ContactCTA";
 
-export default function Home() {
+export default async function Home() {
+  const [featured, settings] = await Promise.all([getFeatured(4), getSettings()]);
   return (
     <>
       {/* HERO */}
@@ -63,9 +64,9 @@ export default function Home() {
             Vedi tutto <span>→</span>
           </Link>
         </div>
-        <div className="grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-4 sm:gap-y-10 lg:grid-cols-4">
           {featured.map((p) => (
-            <ProductCard key={p.slug} p={p} />
+            <ProductCard key={p.id} p={p} settings={settings} />
           ))}
         </div>
         <p className="mt-8 text-[11px] uppercase tracking-[0.12em] text-steel">
