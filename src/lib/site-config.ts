@@ -84,6 +84,43 @@ export const nav = [
   { href: "/contatti", label: "Contatti" },
 ];
 
+/** Nav con mega-menu a tendina (dropdown) per le sezioni con sottocategorie. */
+export interface MegaItem {
+  href: string;
+  label: string;
+  children?: { href: string; label: string }[];
+}
+
+export const megaNav: MegaItem[] = [
+  {
+    href: "/stufe",
+    label: "Riscaldamento",
+    children: [
+      { href: "/stufe", label: "Tutto il riscaldamento" },
+      ...souls.stufe.categories.map((c) => ({ href: `/stufe/${c.slug}`, label: c.name })),
+    ],
+  },
+  {
+    href: "/arredamento",
+    label: "Arredamento",
+    children: [
+      { href: "/arredamento", label: "Tutto l'arredamento" },
+      ...souls.arredamento.categories.map((c) => ({ href: `/arredamento/${c.slug}`, label: c.name })),
+    ],
+  },
+  {
+    href: "/elettrodomestici",
+    label: "Elettrodomestici",
+    children: [
+      { href: "/elettrodomestici", label: "Tutti gli elettrodomestici" },
+      ...elettrodomestici.groups.map((g) => ({ href: "/elettrodomestici", label: g.name })),
+    ],
+  },
+  { href: "/ricambi", label: "Ricambi" },
+  { href: "/chi-siamo", label: "Chi siamo" },
+  { href: "/contatti", label: "Contatti" },
+];
+
 export function waLink(text?: string) {
   const base = `https://wa.me/${contacts.whatsappHref}`;
   return text ? `${base}?text=${encodeURIComponent(text)}` : base;

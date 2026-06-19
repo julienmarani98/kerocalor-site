@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { Archivo } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
-const archivo = Archivo({
+const inter = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
-  variable: "--font-archivo",
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  variable: "--font-inter",
   display: "swap",
 });
 
@@ -23,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="it" className={archivo.variable}>
+    <html lang="it" className={inter.variable}>
       <body className="font-sans antialiased">
         <Header />
         <main className="min-h-screen pt-[var(--header-h)]">{children}</main>

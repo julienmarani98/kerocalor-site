@@ -3,7 +3,12 @@
 @tailwind utilities;
 
 :root {
-  --header-h: 64px;
+  --header-h: 60px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  /* fluid type scale (riferimento industriale) */
+  --text-h1: clamp(2rem, 1.2rem + 3.4vw, 4.25rem);
+  --text-h2: clamp(1.5rem, 1.05rem + 1.9vw, 2.5rem);
+  --text-h3: clamp(1.125rem, 0.95rem + 0.7vw, 1.5rem);
 }
 
 html {
@@ -13,69 +18,119 @@ html {
 body {
   background: #efefef;
   color: #1c1c1c;
-  font-feature-settings: "ss01";
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
+@layer base {
+  strong, b { font-weight: 600; }
+}
+
 @layer components {
-  /* ---- Typography: heavy, uppercase, industrial ---- */
+  /* ---- Typography: heading pesante Inter, uppercase, tracking stretto ---- */
   .kicker {
-    @apply text-[11px] font-extrabold uppercase tracking-widest2 text-steel;
+    @apply text-[11px] font-medium uppercase tracking-[0.14em] text-steel;
   }
   .display {
-    @apply font-black uppercase leading-[0.95] tracking-wider2;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.005em;
+    line-height: 0.98;
   }
   .h-display {
-    @apply display text-4xl sm:text-6xl lg:text-7xl;
+    @apply display;
+    font-size: var(--text-h1);
   }
   .h-section {
-    @apply display text-2xl sm:text-3xl lg:text-4xl;
+    @apply display;
+    font-size: var(--text-h2);
+    line-height: 1.04;
   }
 
-  /* ---- Buttons: square, minimal, monochrome ---- */
+  /* ---- Buttons: squadrati, primary nero/bianco, hover schiarisce ---- */
   .btn {
     @apply inline-flex items-center justify-center gap-2 rounded-none border
-           px-6 py-3 text-[12px] font-extrabold uppercase tracking-widest2
-           transition-all duration-300 ease-snap;
+           px-6 py-3 text-[12px] font-medium uppercase tracking-[0.1em]
+           transition-all duration-200;
+    transition-timing-function: var(--ease);
   }
   .btn-dark {
-    @apply btn border-carbon bg-carbon text-white hover:bg-transparent hover:text-carbon;
+    @apply btn border-carbon bg-carbon text-white;
   }
+  .btn-dark:hover { background-image: linear-gradient(rgba(255,255,255,.18), rgba(255,255,255,.18)); }
   .btn-light {
-    @apply btn border-carbon bg-transparent text-carbon hover:bg-carbon hover:text-white;
+    @apply btn border-carbon bg-transparent text-carbon;
   }
+  .btn-light:hover { background: #000; color: #fff; }
   .btn-ghost-white {
-    @apply btn border-white bg-transparent text-white hover:bg-white hover:text-carbon;
+    @apply btn border-white/40 bg-transparent text-white;
   }
+  .btn-ghost-white:hover { background: #fff; color: #000; border-color: #fff; }
   .btn-wa {
-    @apply btn border-[#1faf52] bg-[#1faf52] text-white hover:bg-transparent hover:text-[#1faf52];
+    @apply btn border-[#1faf52] bg-[#1faf52] text-white;
   }
+  .btn-wa:hover { background-image: linear-gradient(rgba(255,255,255,.2), rgba(255,255,255,.2)); }
 
   .container-site {
     @apply mx-auto w-full max-w-site px-5 sm:px-8 lg:px-12;
   }
 
-  /* ---- Product card: square 1:1, tight, subtle hover ---- */
+  /* ---- Link faded: 65% opacità → pieno su hover (come reference) ---- */
+  .link-faded {
+    color: rgba(28, 28, 28, 0.6);
+    transition: color 0.2s ease-in-out;
+  }
+  .link-faded:hover { color: #1c1c1c; }
+  .on-dark .link-faded { color: rgba(255, 255, 255, 0.6); }
+  .on-dark .link-faded:hover { color: #fff; }
+
+  /* ---- Nav link con underline-wipe animato (scaleX da sinistra) ---- */
+  .nav-link {
+    position: relative;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 400;
+    color: #1c1c1c;
+    padding-bottom: 2px;
+  }
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease-in-out 40ms;
+  }
+  .nav-link:hover::after { transform: scaleX(1); }
+
+  /* ---- Product card: quadrata 1:1, swap immagine in fade ---- */
   .card-media {
     @apply relative aspect-square w-full overflow-hidden bg-ink;
   }
   .card-media img {
-    @apply h-full w-full object-cover transition-transform duration-700 ease-snap;
+    @apply h-full w-full object-cover transition-transform duration-700;
+    transition-timing-function: var(--ease);
   }
-  .group:hover .card-media img {
-    @apply scale-[1.04];
-  }
-  .hairline {
-    @apply border-line;
-  }
+  .group:hover .card-media img { transform: scale(1.05); }
+  .hairline { @apply border-line; }
+}
+
+/* Dropdown mega-menu: pannello che entra in fade+slide */
+@keyframes kc-dropdown {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* Entrance reveal */
 @keyframes kc-rise {
-  from { opacity: 0; transform: translateY(18px); }
+  from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-.reveal {
-  animation: kc-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
+.reveal { animation: kc-rise 0.7s var(--ease) both; }

@@ -14,7 +14,7 @@ const config: Config = {
         ember: "#c8462a", // single warm accent (stufe / fuoco)
       },
       fontFamily: {
-        sans: ["var(--font-archivo)", "system-ui", "sans-serif"],
+        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
       },
       letterSpacing: {
         wider2: "0.1em",
