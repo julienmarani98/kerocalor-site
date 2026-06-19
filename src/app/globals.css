@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --header-h: 64px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #efefef;
+  color: #1c1c1c;
+  font-feature-settings: "ss01";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+@layer components {
+  /* ---- Typography: heavy, uppercase, industrial ---- */
+  .kicker {
+    @apply text-[11px] font-extrabold uppercase tracking-widest2 text-steel;
+  }
+  .display {
+    @apply font-black uppercase leading-[0.95] tracking-wider2;
+  }
+  .h-display {
+    @apply display text-4xl sm:text-6xl lg:text-7xl;
+  }
+  .h-section {
+    @apply display text-2xl sm:text-3xl lg:text-4xl;
+  }
+
+  /* ---- Buttons: square, minimal, monochrome ---- */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-none border
+           px-6 py-3 text-[12px] font-extrabold uppercase tracking-widest2
+           transition-all duration-300 ease-snap;
+  }
+  .btn-dark {
+    @apply btn border-carbon bg-carbon text-white hover:bg-transparent hover:text-carbon;
+  }
+  .btn-light {
+    @apply btn border-carbon bg-transparent text-carbon hover:bg-carbon hover:text-white;
+  }
+  .btn-ghost-white {
+    @apply btn border-white bg-transparent text-white hover:bg-white hover:text-carbon;
+  }
+  .btn-wa {
+    @apply btn border-[#1faf52] bg-[#1faf52] text-white hover:bg-transparent hover:text-[#1faf52];
+  }
+
+  .container-site {
+    @apply mx-auto w-full max-w-site px-5 sm:px-8 lg:px-12;
+  }
+
+  /* ---- Product card: square 1:1, tight, subtle hover ---- */
+  .card-media {
+    @apply relative aspect-square w-full overflow-hidden bg-ink;
+  }
+  .card-media img {
+    @apply h-full w-full object-cover transition-transform duration-700 ease-snap;
+  }
+  .group:hover .card-media img {
+    @apply scale-[1.04];
+  }
+  .hairline {
+    @apply border-line;
+  }
+}
+
+/* Entrance reveal */
+@keyframes kc-rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.reveal {
+  animation: kc-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
