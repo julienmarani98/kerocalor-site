@@ -24,24 +24,36 @@ export default async function Ricambi() {
   return (
     <section className="bg-carbon text-white">
       <div className="container-site py-16 sm:py-20 lg:py-28">
-        <p className="kicker text-ember">Assistenza</p>
-        <h1 className="h-display reveal mt-5 max-w-3xl">Ti serve un ricambio?</h1>
-        <p className="reveal mt-6 max-w-2xl text-base text-white/70 sm:text-lg">
-          Non vendiamo i ricambi online: ce li chiedi e li troviamo per te. Scrivici
-          il <strong className="text-white">modello</strong> della stufa o del caminetto e il
-          <strong className="text-white"> pezzo</strong> che ti serve — possibilmente con una foto.
-        </p>
+        <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
+          <div>
+            <p className="kicker text-ember">Assistenza</p>
+            <h1 className="h-display reveal mt-5 max-w-3xl">Ti serve un ricambio?</h1>
+            <p className="reveal mt-6 max-w-2xl text-base text-white/70 sm:text-lg">
+              Non vendiamo i ricambi online: ce li chiedi e li troviamo per te. Scrivici
+              il <strong className="text-white">modello</strong> della stufa o del caminetto e il
+              <strong className="text-white"> pezzo</strong> che ti serve — possibilmente con una foto.
+            </p>
 
-        <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-          <a href={waUrl(s.whatsappHref, msg)} target="_blank" rel="noopener" className="btn-wa">
-            Contattaci su WhatsApp
-          </a>
-          <a href={mailUrl(s.email, "Richiesta ricambio")} className="btn-ghost-white">
-            Scrivici una email
-          </a>
-          <a href={telHref(s.phoneHref)} className="btn-ghost-white">
-            Chiama {s.phone}
-          </a>
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+              <a href={waUrl(s.whatsappHref, msg)} target="_blank" rel="noopener" className="btn-wa">
+                Contattaci su WhatsApp
+              </a>
+              <a href={mailUrl(s.email, "Richiesta ricambio")} className="btn-ghost-white">
+                Scrivici una email
+              </a>
+              <a href={telHref(s.phoneHref)} className="btn-ghost-white">
+                Chiama {s.phone}
+              </a>
+            </div>
+          </div>
+          <div className="relative hidden aspect-[4/3] overflow-hidden border border-white/10 lg:block">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/categorie/ricambi.jpg"
+              alt="Ricambi per stufe sul banco di lavoro"
+              className="h-full w-full object-cover"
+            />
+          </div>
         </div>
 
         <div className="mt-16">

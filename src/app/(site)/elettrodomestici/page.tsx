@@ -17,12 +17,22 @@ export default function Elettrodomestici() {
   return (
     <>
       <section className="border-b border-line bg-ash">
-        <div className="container-site py-20 lg:py-28">
-          <p className="kicker text-ember">Sezione dedicata</p>
-          <h1 className="h-display reveal mt-5">{elettrodomestici.title}</h1>
-          <p className="reveal mt-6 max-w-xl text-lg text-ink/75">
-            {elettrodomestici.tagline}.
-          </p>
+        <div className="container-site grid items-center gap-10 py-14 lg:grid-cols-[1.1fr_0.9fr] lg:py-20">
+          <div>
+            <p className="kicker text-ember">Sezione dedicata</p>
+            <h1 className="h-display reveal mt-5">{elettrodomestici.title}</h1>
+            <p className="reveal mt-6 max-w-xl text-lg text-ink/75">
+              {elettrodomestici.tagline}.
+            </p>
+          </div>
+          <div className="relative aspect-[4/3] overflow-hidden">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/categorie/elettrodomestici.jpg"
+              alt="Colonna forni da incasso"
+              className="h-full w-full object-cover"
+            />
+          </div>
         </div>
       </section>
 

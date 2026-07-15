@@ -25,19 +25,28 @@ export default function SoulLanding({ soul }: { soul: Soul }) {
             <Link
               key={c.slug}
               href={`/${soul}/${c.slug}`}
-              className="group flex flex-col justify-between bg-ash p-8 transition-colors hover:bg-white"
+              className="group flex flex-col bg-ash transition-colors hover:bg-white"
             >
-              <div>
-                <h2 className="text-lg font-extrabold uppercase tracking-wider2 text-ink">{c.name}</h2>
-                <p className="mt-2 text-sm text-ink/65">{c.blurb}</p>
+              <div className="card-media !aspect-[4/3]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={`/images/categorie/${c.slug}.jpg`} alt={c.name} loading="lazy" />
               </div>
-              <span className="mt-8 inline-flex items-center gap-2 text-[11px] font-extrabold uppercase tracking-widest2 text-ink">
-                Vedi
-                <span className="transition-transform duration-300 group-hover:translate-x-2">→</span>
-              </span>
+              <div className="flex flex-1 flex-col justify-between p-6 sm:p-7">
+                <div>
+                  <h2 className="text-lg font-extrabold uppercase tracking-wider2 text-ink">{c.name}</h2>
+                  <p className="mt-2 text-sm text-ink/65">{c.blurb}</p>
+                </div>
+                <span className="mt-6 inline-flex items-center gap-2 text-[11px] font-extrabold uppercase tracking-widest2 text-ink">
+                  Vedi
+                  <span className="transition-transform duration-300 group-hover:translate-x-2">→</span>
+                </span>
+              </div>
             </Link>
           ))}
         </div>
+        <p className="mt-6 text-[11px] uppercase tracking-[0.12em] text-steel">
+          Immagini d’ambiente indicative · in showroom trovi i modelli reali
+        </p>
       </section>
 
       <ContactCTA />

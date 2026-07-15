@@ -13,16 +13,26 @@ export default async function CategoryView({ soul, slug }: { soul: Soul; slug: s
   return (
     <>
       <section className="border-b border-line bg-ash">
-        <div className="container-site py-12 sm:py-16 lg:py-20">
-          <nav className="mb-6 flex flex-wrap items-center gap-2 text-[11px] uppercase tracking-[0.12em] text-steel">
-            <Link href="/" className="hover:text-ink">Home</Link>
-            <span>/</span>
-            <Link href={`/${soul}`} className="hover:text-ink">{souls[soul].title}</Link>
-            <span>/</span>
-            <span className="text-ink">{cat.name}</span>
-          </nav>
-          <h1 className="h-display">{cat.name}</h1>
-          <p className="mt-5 max-w-xl text-base text-ink/75 sm:text-lg">{cat.blurb}</p>
+        <div className="container-site grid items-center gap-10 py-12 sm:py-16 lg:grid-cols-[1.15fr_0.85fr] lg:py-20">
+          <div>
+            <nav className="mb-6 flex flex-wrap items-center gap-2 text-[11px] uppercase tracking-[0.12em] text-steel">
+              <Link href="/" className="hover:text-ink">Home</Link>
+              <span>/</span>
+              <Link href={`/${soul}`} className="hover:text-ink">{souls[soul].title}</Link>
+              <span>/</span>
+              <span className="text-ink">{cat.name}</span>
+            </nav>
+            <h1 className="h-display">{cat.name}</h1>
+            <p className="mt-5 max-w-xl text-base text-ink/75 sm:text-lg">{cat.blurb}</p>
+          </div>
+          <div className="relative hidden aspect-[4/3] overflow-hidden lg:block">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={`/images/categorie/${slug}.jpg`}
+              alt={cat.name}
+              className="h-full w-full object-cover"
+            />
+          </div>
         </div>
       </section>
 

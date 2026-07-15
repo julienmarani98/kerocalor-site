@@ -43,11 +43,22 @@ export default function ChiSiamo() {
           </p>
         </div>
 
-        <aside className="space-y-px self-start border border-line bg-line">
-          <Fact k="Anno di fondazione" v={String(contacts.since)} />
-          <Fact k="Esposizione" v="3.000 mq" />
-          <Fact k="Dove" v="Mornago, prov. di Varese" />
-          <Fact k="Parcheggio" v="Illimitato" />
+        <aside className="self-start">
+          <div className="relative aspect-[4/3] overflow-hidden">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/categorie/soggiorni.jpg"
+              alt="Ambiente living in esposizione"
+              loading="lazy"
+              className="h-full w-full object-cover"
+            />
+          </div>
+          <div className="mt-px space-y-px border border-line bg-line">
+            <Fact k="Anno di fondazione" v={String(contacts.since)} />
+            <Fact k="Esposizione" v="3.000 mq" />
+            <Fact k="Dove" v="Mornago, prov. di Varese" />
+            <Fact k="Parcheggio" v="Illimitato" />
+          </div>
         </aside>
       </section>
 

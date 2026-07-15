@@ -2,17 +2,16 @@ import Link from "next/link";
 import { hours, nav } from "@/lib/site-config";
 import { waUrl, mailUrl, telHref } from "@/lib/links";
 import type { Settings } from "@/lib/store";
+import Logo from "@/components/Logo";
 
 export default function Footer({ settings }: { settings: Settings }) {
   const contacts = settings;
   return (
     <footer className="bg-carbon text-white">
-      <div className="container-site grid gap-12 py-16 md:grid-cols-4">
+      <div className="container-site grid gap-x-8 gap-y-12 py-16 sm:grid-cols-2 md:grid-cols-4">
         <div className="md:col-span-1">
-          <div className="text-2xl font-black uppercase tracking-wider2">
-            Kero<span className="text-ember">calor</span>
-          </div>
-          <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/65">
+          <Logo className="h-14 w-auto" />
+          <p className="mt-5 max-w-xs text-sm leading-relaxed text-white/65">
             Riscaldamento e arredamento dal 1969. 3.000 mq di esposizione a
             Mornago, in provincia di Varese.
           </p>

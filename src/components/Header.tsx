@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { megaNav, MegaItem } from "@/lib/site-config";
 import { waUrl, telHref } from "@/lib/links";
 import type { Settings } from "@/lib/store";
+import Logo from "@/components/Logo";
 
 export default function Header({ settings }: { settings: Settings }) {
   const [open, setOpen] = useState(false);
@@ -20,10 +21,8 @@ export default function Header({ settings }: { settings: Settings }) {
   return (
     <header className="on-dark fixed inset-x-0 top-0 z-50 h-[var(--header-h)] border-b border-white/10 bg-carbon text-white">
       <div className="container-site flex h-full items-center justify-between">
-        <Link href="/" className="flex items-baseline gap-2" aria-label="Kerocalor — home">
-          <span className="text-lg font-extrabold uppercase tracking-[0.02em] text-white">
-            Kero<span className="text-ember">calor</span>
-          </span>
+        <Link href="/" className="flex items-center gap-3" aria-label="Kerocalor — home">
+          <Logo className="h-10 w-auto shrink-0 sm:h-11" />
           <span className="hidden text-[9px] font-medium uppercase tracking-[0.18em] text-white/45 sm:block">
             dal 1969
           </span>

@@ -29,7 +29,7 @@ export default async function Home() {
           </div>
           <div className="relative aspect-[4/3] overflow-hidden lg:aspect-[5/4]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/cucine/caranto.jpg" alt="Cucina in esposizione" className="h-full w-full object-cover" />
+            <img src="/images/categorie/cucine.jpg" alt="Cucina in esposizione" className="h-full w-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
           </div>
         </div>
@@ -42,14 +42,15 @@ export default async function Home() {
           eyebrow="Anima 01"
           title={souls.stufe.title}
           tagline={souls.stufe.tagline}
-          image="/images/hero/stufa-ambiente.webp"
+          image="/images/categorie/stufe-a-legna.jpg"
+          position="72% center"
         />
         <SoulPanel
           href="/arredamento"
           eyebrow="Anima 02"
           title={souls.arredamento.title}
           tagline={souls.arredamento.tagline}
-          image="/images/cucine/cucina-1.jpg"
+          image="/images/categorie/salotti.jpg"
         />
       </section>
 
@@ -76,22 +77,20 @@ export default async function Home() {
 
       {/* THIRD AREA */}
       <section className="container-site grid gap-px bg-line pb-0 sm:grid-cols-2">
-        <Link href="/elettrodomestici" className="group flex items-center justify-between bg-ash p-10 transition-colors hover:bg-white">
-          <div>
-            <p className="kicker text-steel">In più</p>
-            <h3 className="h-section mt-2">Elettrodomestici</h3>
-            <p className="mt-2 text-sm text-ink/70">Incasso e libera installazione, le migliori marche.</p>
-          </div>
-          <Arrow />
-        </Link>
-        <Link href="/ricambi" className="group flex items-center justify-between bg-ash p-10 transition-colors hover:bg-white">
-          <div>
-            <p className="kicker text-steel">Assistenza</p>
-            <h3 className="h-section mt-2">Ricambi</h3>
-            <p className="mt-2 text-sm text-ink/70">Trovi il pezzo che ti serve? Scrivici, ci pensiamo noi.</p>
-          </div>
-          <Arrow />
-        </Link>
+        <AreaPanel
+          href="/elettrodomestici"
+          kicker="In più"
+          title="Elettrodomestici"
+          text="Incasso e libera installazione, le migliori marche."
+          image="/images/categorie/elettrodomestici.jpg"
+        />
+        <AreaPanel
+          href="/ricambi"
+          kicker="Assistenza"
+          title="Ricambi"
+          text="Trovi il pezzo che ti serve? Scrivici, ci pensiamo noi."
+          image="/images/categorie/ricambi.jpg"
+        />
       </section>
 
       {/* STORY BAND con immagine */}
@@ -132,22 +131,25 @@ function SoulPanel({
   title,
   tagline,
   image,
+  position = "center",
 }: {
   href: string;
   eyebrow: string;
   title: string;
   tagline: string;
   image: string;
+  position?: string;
 }) {
   return (
     <Link
       href={href}
-      className="group relative flex min-h-[68vh] flex-col justify-between overflow-hidden p-10 text-white lg:p-16"
+      className="group relative flex min-h-[52vh] flex-col justify-between overflow-hidden p-8 text-white sm:p-10 md:min-h-[68vh] lg:p-16"
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={image}
         alt={title}
+        style={{ objectPosition: position }}
         className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-105"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/30 transition-colors duration-500 group-hover:from-black/85" />
@@ -156,10 +158,49 @@ function SoulPanel({
         <span className="h-3 w-3 bg-ember" />
       </div>
       <div className="relative">
-        <h2 className="display text-5xl lg:text-7xl">{title}</h2>
+        <h2 className="display text-4xl sm:text-5xl lg:text-6xl 2xl:text-7xl">{title}</h2>
         <p className="mt-4 max-w-sm text-sm text-white/75">{tagline}</p>
         <span className="mt-8 inline-flex items-center gap-3 text-[12px] font-medium uppercase tracking-[0.16em]">
           Entra
+          <span className="inline-block transition-transform duration-300 group-hover:translate-x-2">→</span>
+        </span>
+      </div>
+    </Link>
+  );
+}
+
+function AreaPanel({
+  href,
+  kicker,
+  title,
+  text,
+  image,
+}: {
+  href: string;
+  kicker: string;
+  title: string;
+  text: string;
+  image: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className="group relative flex min-h-[240px] items-end overflow-hidden p-8 text-white sm:min-h-[280px] lg:p-10"
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={image}
+        alt={title}
+        loading="lazy"
+        className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-black/15 transition-colors duration-500 group-hover:from-black/85" />
+      <div className="relative">
+        <p className="kicker text-white/60">{kicker}</p>
+        <h3 className="h-section mt-2">{title}</h3>
+        <p className="mt-2 max-w-sm text-sm text-white/75">{text}</p>
+        <span className="mt-5 inline-flex items-center gap-2 text-[11px] font-extrabold uppercase tracking-widest2">
+          Scopri
           <span className="inline-block transition-transform duration-300 group-hover:translate-x-2">→</span>
         </span>
       </div>
@@ -176,6 +217,3 @@ function Stat({ n, l }: { n: string; l: string }) {
   );
 }
 
-function Arrow() {
-  return <span className="text-2xl transition-transform duration-300 group-hover:translate-x-2">→</span>;
-}
