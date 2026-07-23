@@ -113,7 +113,7 @@ export const megaNav: MegaItem[] = [
     label: "Elettrodomestici",
     children: [
       { href: "/elettrodomestici", label: "Tutti gli elettrodomestici" },
-      ...elettrodomestici.groups.map((g) => ({ href: "/elettrodomestici", label: g.name })),
+      ...elettrodomestici.groups.map((g) => ({ href: `/elettrodomestici#${g.slug}`, label: g.name })),
     ],
   },
   { href: "/ricambi", label: "Ricambi" },

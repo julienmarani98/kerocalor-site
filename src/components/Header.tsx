@@ -6,6 +6,7 @@ import { megaNav, MegaItem } from "@/lib/site-config";
 import { waUrl, telHref } from "@/lib/links";
 import type { Settings } from "@/lib/store";
 import Logo from "@/components/Logo";
+import { PhoneIcon, WhatsAppIcon } from "@/components/icons";
 
 export default function Header({ settings }: { settings: Settings }) {
   const [open, setOpen] = useState(false);
@@ -35,12 +36,24 @@ export default function Header({ settings }: { settings: Settings }) {
           ))}
         </nav>
 
-        <div className="hidden items-center gap-4 lg:flex">
-          <a href={`tel:${contacts.phoneHref}`} className="text-[13px] font-medium text-white/80 transition-colors hover:text-white">
-            {contacts.phone}
+        <div className="hidden items-center gap-2 lg:flex">
+          <a
+            href={`tel:${contacts.phoneHref}`}
+            aria-label={`Chiama ${contacts.phone}`}
+            title={`Chiama ${contacts.phone}`}
+            className="icon-btn"
+          >
+            <PhoneIcon />
           </a>
-          <a href={waUrl(contacts.whatsappHref, "Salve, vorrei un'informazione.")} target="_blank" rel="noopener" className="btn-wa !px-4 !py-2 !text-[11px]">
-            WhatsApp
+          <a
+            href={waUrl(contacts.whatsappHref, "Salve, vorrei un'informazione.")}
+            target="_blank"
+            rel="noopener"
+            aria-label="Scrivici su WhatsApp"
+            title="Scrivici su WhatsApp"
+            className="icon-btn icon-btn-wa"
+          >
+            <WhatsAppIcon />
           </a>
         </div>
 
@@ -94,8 +107,12 @@ export default function Header({ settings }: { settings: Settings }) {
             </div>
           ))}
           <div className="mt-5 grid grid-cols-2 gap-3">
-            <a href={telHref(contacts.phoneHref)} className="btn-ghost-white">Chiama</a>
-            <a href={waUrl(contacts.whatsappHref)} target="_blank" rel="noopener" className="btn-wa">WhatsApp</a>
+            <a href={telHref(contacts.phoneHref)} className="btn-ghost-white">
+              <PhoneIcon className="h-4 w-4" /> Chiama
+            </a>
+            <a href={waUrl(contacts.whatsappHref)} target="_blank" rel="noopener" className="btn-wa">
+              <WhatsAppIcon className="h-4 w-4" /> WhatsApp
+            </a>
           </div>
         </nav>
       </div>
@@ -113,16 +130,15 @@ function NavItem({ item }: { item: MegaItem }) {
   }
   return (
     <div className="group/nav relative flex items-center">
-      <Link
-        href={item.href}
-        className="flex items-center gap-1 text-[13px] font-normal text-white/80 transition-colors group-hover/nav:text-white"
-      >
-        {item.label}
-        <span className="text-[9px] opacity-50 transition-transform duration-300 group-hover/nav:rotate-180">▾</span>
+      <Link href={item.href} className="flex items-center">
+        <span className="nav-link">{item.label}</span>
       </Link>
 
       {/* Dropdown panel (scuro) */}
-      <div className="invisible absolute left-0 top-full z-50 opacity-0 transition-all duration-200 group-hover/nav:visible group-hover/nav:opacity-100">
+      <div
+        className="invisible absolute left-0 top-full z-50 translate-y-2 opacity-0 transition-all duration-300 group-hover/nav:visible group-hover/nav:translate-y-0 group-hover/nav:opacity-100"
+        style={{ transitionTimingFunction: "var(--ease)" }}
+      >
         <div className="relative mt-0 min-w-[230px] border-x border-b border-white/10 bg-[#0e0e0e] py-3 shadow-[2px_2px_18px_rgba(0,0,0,0.5)]">
           <span className="absolute inset-x-0 top-0 h-[2px] origin-left scale-x-0 bg-white transition-transform duration-300 group-hover/nav:scale-x-100" />
           {item.children.map((c, i) => (

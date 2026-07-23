@@ -10,7 +10,7 @@ export default function SoulLanding({ soul }: { soul: Soul }) {
       <section className={`border-b border-line ${dark ? "bg-carbon text-white" : "bg-ash text-ink"}`}>
         <div className="container-site py-20 lg:py-28">
           <p className={`kicker ${dark ? "text-ember" : "text-steel"}`}>
-            {soul === "stufe" ? "Anima 01 — Il calore" : "Anima 02 — La casa"}
+            {soul === "stufe" ? "Il calore" : "La casa"}
           </p>
           <h1 className="h-display reveal mt-5">{data.title}</h1>
           <p className={`reveal mt-6 max-w-xl text-lg ${dark ? "text-white/70" : "text-ink/75"}`}>
@@ -21,11 +21,13 @@ export default function SoulLanding({ soul }: { soul: Soul }) {
 
       <section className="container-site py-16 lg:py-20">
         <div className="grid grid-cols-1 gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
-          {data.categories.map((c) => (
+          {data.categories.map((c, i) => (
             <Link
               key={c.slug}
               href={`/${soul}/${c.slug}`}
               className="group flex flex-col bg-ash transition-colors hover:bg-white"
+              data-reveal
+              style={{ "--reveal-delay": `${(i % 3) * 80}ms` } as React.CSSProperties}
             >
               <div className="card-media !aspect-[4/3]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}

@@ -1,6 +1,8 @@
 import { hours, contacts as brand } from "@/lib/site-config";
 import { getSettings } from "@/lib/store";
 import { waUrl, mailUrl, telHref } from "@/lib/links";
+import DirectionsChooser from "@/components/DirectionsChooser";
+import { PhoneIcon, WhatsAppIcon, MailIcon, PinIcon } from "@/components/icons";
 
 export const metadata = {
   title: "Contatti — Kerocalor Mornago (VA)",
@@ -27,11 +29,21 @@ export default async function Contatti() {
       <section className="container-site grid gap-px border border-line bg-line py-0 md:grid-cols-2">
         <div className="bg-ash p-8 sm:p-10 lg:p-14">
           <h2 className="kicker text-steel">Dove siamo</h2>
-          <p className="mt-4 text-lg font-extrabold uppercase tracking-wider2 text-ink sm:text-xl">
-            {s.address}
-          </p>
-          <p className="text-ink/80">{s.city}</p>
-          <p className="mt-2 text-sm text-steel">{brand.showroom}</p>
+          <DirectionsChooser address={s.address} city={s.city} className="mt-4 block">
+            <span className="flex items-start gap-2">
+              <PinIcon className="mt-1 h-5 w-5 shrink-0 text-ember" />
+              <span>
+                <span className="block text-lg font-extrabold uppercase tracking-wider2 text-ink underline decoration-line decoration-2 underline-offset-4 transition-colors group-hover/dir:decoration-ember sm:text-xl">
+                  {s.address}
+                </span>
+                <span className="block text-ink/80">{s.city}</span>
+                <span className="mt-1 block text-[11px] font-medium uppercase tracking-[0.12em] text-steel transition-colors group-hover/dir:text-ember">
+                  Apri nel navigatore →
+                </span>
+              </span>
+            </span>
+          </DirectionsChooser>
+          <p className="mt-3 text-sm text-steel">{brand.showroom}</p>
 
           <h2 className="kicker mt-10 text-steel">Orari</h2>
           <table className="mt-4 text-sm text-ink/85">
@@ -49,10 +61,14 @@ export default async function Contatti() {
 
           <div className="mt-10 flex flex-col gap-3 sm:flex-row">
             <a href={waUrl(s.whatsappHref, "Salve, vorrei un'informazione.")} target="_blank" rel="noopener" className="btn-wa">
-              WhatsApp
+              <WhatsAppIcon className="h-4 w-4" /> WhatsApp
             </a>
-            <a href={telHref(s.phoneHref)} className="btn-light">Chiama</a>
-            <a href={mailUrl(s.email, "Richiesta informazioni")} className="btn-light">Email</a>
+            <a href={telHref(s.phoneHref)} className="btn-light">
+              <PhoneIcon className="h-4 w-4" /> Chiama
+            </a>
+            <a href={mailUrl(s.email, "Richiesta informazioni")} className="btn-light">
+              <MailIcon className="h-4 w-4" /> Email
+            </a>
           </div>
         </div>
 

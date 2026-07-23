@@ -3,6 +3,7 @@ import { hours, nav } from "@/lib/site-config";
 import { waUrl, mailUrl, telHref } from "@/lib/links";
 import type { Settings } from "@/lib/store";
 import Logo from "@/components/Logo";
+import DirectionsChooser from "@/components/DirectionsChooser";
 
 export default function Footer({ settings }: { settings: Settings }) {
   const contacts = settings;
@@ -33,8 +34,15 @@ export default function Footer({ settings }: { settings: Settings }) {
         <div>
           <h3 className="kicker text-white/50">Contatti</h3>
           <ul className="mt-4 space-y-2 text-sm text-white/80">
-            <li>{contacts.address}</li>
-            <li>{contacts.city}</li>
+            <li>
+              <DirectionsChooser address={contacts.address} city={contacts.city}>
+                <span className="transition-colors hover:text-white">
+                  {contacts.address}
+                  <br />
+                  {contacts.city}
+                </span>
+              </DirectionsChooser>
+            </li>
             <li>
               <a href={telHref(contacts.phoneHref)} className="hover:text-white">Tel. {contacts.phone}</a>
             </li>

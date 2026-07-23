@@ -30,6 +30,14 @@ export const demoProducts: Product[] = [
   { slug: "cucina-living", name: "Living", brand: "Veneta Cucine", category: "cucine", image: "/images/cucine/cucina-1.jpg" },
   { slug: "cucina-magazine", name: "Oyster", brand: "Veneta Cucine", category: "cucine", image: "/images/cucine/magazine.jpg" },
   { slug: "cucina-green", name: "Green Thinking", brand: "Veneta Cucine", category: "cucine", image: "/images/cucine/green.jpg" },
+
+  // --- Elettrodomestici (placeholder Bosch/Samsung, foto catalogo produttore) ---
+  { slug: "forno-bosch-serie8", name: "Forno Serie 8", brand: "Bosch", category: "incasso", image: "/images/elettrodomestici/forno-bosch-serie8.jpg" },
+  { slug: "forno-samsung-dualcook", name: "Forno Dual Cook Flex", brand: "Samsung", category: "incasso", image: "/images/elettrodomestici/forno-samsung-dualcook.jpg" },
+  { slug: "piano-bosch-induzione", name: "Piano induzione Serie 4", brand: "Bosch", category: "incasso", image: "/images/elettrodomestici/piano-bosch-induzione.jpg" },
+  { slug: "lavatrice-bosch-serie6", name: "Lavatrice Serie 6 · 10 kg", brand: "Bosch", category: "libera-installazione", image: "/images/elettrodomestici/lavatrice-bosch-serie6.jpg" },
+  { slug: "frigo-samsung-combinato", name: "Frigorifero EcoFlex AI", brand: "Samsung", category: "libera-installazione", image: "/images/elettrodomestici/frigo-samsung-combinato.jpg" },
+  { slug: "lavastoviglie-bosch", name: "Lavastoviglie Serie 4", brand: "Bosch", category: "libera-installazione", image: "/images/elettrodomestici/lavastoviglie-bosch.jpg" },
 ];
 
 export function productsByCategory(category: string): Product[] {

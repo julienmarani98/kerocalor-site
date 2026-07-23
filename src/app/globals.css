@@ -57,6 +57,25 @@ body {
            transition-all duration-200;
     transition-timing-function: var(--ease);
   }
+  .btn:active { transform: scale(0.97); }
+
+  /* ---- Icon button (header): quadrato, solo icona ---- */
+  .icon-btn {
+    @apply inline-flex h-10 w-10 items-center justify-center rounded-none border
+           border-white/25 text-white/85 transition-all duration-200;
+    transition-timing-function: var(--ease);
+  }
+  .icon-btn:hover { background: #fff; color: #000; border-color: #fff; }
+  .icon-btn:active { transform: scale(0.94); }
+  .icon-btn-wa {
+    @apply border-[#1faf52] bg-[#1faf52] text-white;
+  }
+  .icon-btn-wa:hover {
+    background: #1faf52;
+    background-image: linear-gradient(rgba(255,255,255,.22), rgba(255,255,255,.22));
+    color: #fff;
+    border-color: #1faf52;
+  }
   .btn-dark {
     @apply btn border-carbon bg-carbon text-white;
   }
@@ -130,12 +149,67 @@ body {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Entrance reveal */
-@keyframes kc-rise {
-  from { opacity: 0; transform: translateY(16px); }
+/* Modal scelta navigatore */
+@keyframes kc-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes kc-pop {
+  from { opacity: 0; transform: translateY(22px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-.reveal { animation: kc-rise 0.7s var(--ease) both; }
+.dir-overlay { animation: kc-fade 0.25s ease-out both; }
+.dir-card { animation: kc-pop 0.4s var(--ease) 60ms both; }
+.dir-app {
+  animation: kc-pop 0.45s var(--ease) both;
+  animation-delay: calc(120ms + var(--reveal-delay, 0ms));
+}
+
+/* Entrance reveal (above the fold, non gated da JS) */
+@keyframes kc-rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.reveal {
+  animation: kc-rise 0.8s var(--ease) both;
+  animation-delay: var(--reveal-delay, 0ms);
+}
+
+/* Media unveil: wipe dal basso + leggero zoom-out dell'immagine */
+@keyframes kc-unveil {
+  from { clip-path: inset(100% 0 0 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+@keyframes kc-settle {
+  from { transform: scale(1.08); }
+  to   { transform: scale(1); }
+}
+.reveal-media {
+  animation: kc-unveil 1s var(--ease) both;
+  animation-delay: var(--reveal-delay, 120ms);
+}
+.reveal-media > img {
+  animation: kc-settle 1.4s var(--ease) both;
+  animation-delay: var(--reveal-delay, 120ms);
+}
+
+/* ---- Scroll reveal (IntersectionObserver, gated da html.js-anim) ----
+   Senza JS gli elementi restano visibili: lo stato nascosto esiste solo
+   quando l'inline script ha aggiunto .js-anim a <html>. */
+html.js-anim [data-reveal] {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.8s var(--ease),
+    transform 0.8s var(--ease);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+html.js-anim [data-reveal="fade"] { transform: none; }
+html.js-anim [data-reveal="scale"] { transform: scale(0.97); }
+html.js-anim [data-reveal].in-view {
+  opacity: 1;
+  transform: none;
+}
 
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -144,6 +218,9 @@ body {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    animation-delay: 0ms !important;
   }
   html { scroll-behavior: auto; }
+  html.js-anim [data-reveal] { opacity: 1; transform: none; }
 }

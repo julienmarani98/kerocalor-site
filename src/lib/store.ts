@@ -44,12 +44,19 @@ export const UPLOAD_DIR = path.join(DATA_DIR, "uploads");
 
 let cache: Content | null = null;
 
+const soulFor = (category: string): SoulKey =>
+  category === "cucine"
+    ? "arredamento"
+    : category === "incasso" || category === "libera-installazione"
+      ? "elettrodomestici"
+      : "stufe";
+
 function seed(): Content {
   const products: StoredProduct[] = demoProducts.map((p, i) => ({
     id: `seed-${i + 1}`,
     name: p.name,
     brand: p.brand,
-    soul: p.category === "cucine" ? "arredamento" : "stufe",
+    soul: soulFor(p.category),
     category: p.category,
     price: p.price,
     image: p.image,

@@ -4,7 +4,7 @@ import { waUrl, mailUrl } from "@/lib/links";
 export default function ProductCard({ p, settings }: { p: StoredProduct; settings: Settings }) {
   const enquiry = `Salve, vorrei informazioni su "${p.name}".`;
   return (
-    <article className="group flex flex-col">
+    <article className="group flex h-full flex-col">
       <div className="card-media">
         {p.image ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -20,13 +20,13 @@ export default function ProductCard({ p, settings }: { p: StoredProduct; setting
       </div>
 
       <div className="flex flex-1 flex-col px-1 pt-4">
-        <h3 className="text-sm font-bold text-ink">{p.name}</h3>
+        <h3 className="text-sm font-bold text-ink transition-colors duration-200 group-hover:text-ember">{p.name}</h3>
         {p.brand && <p className="mt-0.5 text-[11px] uppercase tracking-[0.14em] text-steel">{p.brand}</p>}
         {typeof p.price === "number" && (
           <p className="mt-2 text-sm font-semibold text-ink">€ {p.price.toLocaleString("it-IT")}</p>
         )}
 
-        <div className="mt-4 flex gap-2">
+        <div className="mt-auto flex gap-2 pt-4">
           <a href={waUrl(settings.whatsappHref, enquiry)} target="_blank" rel="noopener" className="btn-wa flex-1 !px-3 !py-2 !text-[11px]">
             WhatsApp
           </a>
