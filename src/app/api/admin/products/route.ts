@@ -5,7 +5,7 @@ import { addProduct, getProducts, SoulKey } from "@/lib/store";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const SOULS: SoulKey[] = ["stufe", "arredamento", "elettrodomestici", "ricambi"];
+const SOULS: SoulKey[] = ["stufe", "arredamento", "complementi", "elettrodomestici", "ricambi"];
 
 export async function GET(): Promise<NextResponse> {
   if (!isAuthed()) return NextResponse.json({ error: "unauthorized" }, { status: 401 });

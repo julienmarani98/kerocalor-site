@@ -4,14 +4,12 @@ import ContactCTA from "@/components/ContactCTA";
 
 export default function SoulLanding({ soul }: { soul: Soul }) {
   const data = souls[soul];
-  const dark = soul === "stufe";
+  const dark = Boolean(data.dark);
   return (
     <>
       <section className={`border-b border-line ${dark ? "bg-carbon text-white" : "bg-ash text-ink"}`}>
         <div className="container-site py-20 lg:py-28">
-          <p className={`kicker ${dark ? "text-ember" : "text-steel"}`}>
-            {soul === "stufe" ? "Il calore" : "La casa"}
-          </p>
+          <p className={`kicker ${dark ? "text-ember" : "text-steel"}`}>{data.kicker}</p>
           <h1 className="h-display reveal mt-5">{data.title}</h1>
           <p className={`reveal mt-6 max-w-xl text-lg ${dark ? "text-white/70" : "text-ink/75"}`}>
             {data.tagline}.

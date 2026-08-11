@@ -25,7 +25,7 @@ export const hours = {
   closed: "Domenica chiuso",
 };
 
-export type Soul = "stufe" | "arredamento";
+export type Soul = "stufe" | "arredamento" | "complementi";
 
 export interface Category {
   slug: string;
@@ -33,14 +33,16 @@ export interface Category {
   blurb: string;
 }
 
-/** Le due anime dell'azienda + tassonomia (recuperata dal vecchio sito). */
+/** Le anime dell'azienda + tassonomia (recuperata dal vecchio sito). */
 export const souls: Record<
   Soul,
-  { title: string; tagline: string; categories: Category[] }
+  { title: string; tagline: string; kicker: string; dark?: boolean; categories: Category[] }
 > = {
   stufe: {
     title: "Riscaldamento",
     tagline: "Stufe, caminetti e calore dal 1969",
+    kicker: "Il calore",
+    dark: true,
     categories: [
       { slug: "stufe-a-legna", name: "Stufe a Legna", blurb: "Il fuoco classico, tecnologia di oggi." },
       { slug: "stufe-a-pellet", name: "Stufe a Pellet", blurb: "Autonomia e comodità, calore costante." },
@@ -54,6 +56,7 @@ export const souls: Record<
   arredamento: {
     title: "Arredamento",
     tagline: "Cucine, living e camere per la tua casa",
+    kicker: "La casa",
     categories: [
       { slug: "cucine", name: "Cucine", blurb: "Componibili, moderne e classiche." },
       { slug: "soggiorni", name: "Soggiorni", blurb: "Mobili giorno e pareti attrezzate." },
@@ -61,6 +64,15 @@ export const souls: Record<
       { slug: "camere", name: "Camere", blurb: "Notte, armadi e cabine." },
       { slug: "camerette", name: "Camerette", blurb: "Spazi su misura per i ragazzi." },
       { slug: "arredo-bagno", name: "Arredo Bagno", blurb: "Composizioni complete." },
+    ],
+  },
+  complementi: {
+    title: "Complementi d'Arredo",
+    tagline: "Dettagli che completano la casa, dentro e fuori",
+    kicker: "I dettagli",
+    categories: [
+      { slug: "indoor", name: "Indoor", blurb: "Tappeti, lampade, specchi e oggetti per gli interni." },
+      { slug: "outdoor", name: "Outdoor", blurb: "Arredo e accessori per giardino, terrazzo e veranda." },
     ],
   },
 };
@@ -78,6 +90,7 @@ export const elettrodomestici = {
 export const nav = [
   { href: "/stufe", label: "Riscaldamento" },
   { href: "/arredamento", label: "Arredamento" },
+  { href: "/complementi", label: "Complementi d’Arredo" },
   { href: "/elettrodomestici", label: "Elettrodomestici" },
   { href: "/ricambi", label: "Ricambi" },
   { href: "/chi-siamo", label: "Chi siamo" },
@@ -106,6 +119,14 @@ export const megaNav: MegaItem[] = [
     children: [
       { href: "/arredamento", label: "Tutto l'arredamento" },
       ...souls.arredamento.categories.map((c) => ({ href: `/arredamento/${c.slug}`, label: c.name })),
+    ],
+  },
+  {
+    href: "/complementi",
+    label: "Complementi",
+    children: [
+      { href: "/complementi", label: "Tutti i complementi" },
+      ...souls.complementi.categories.map((c) => ({ href: `/complementi/${c.slug}`, label: c.name })),
     ],
   },
   {

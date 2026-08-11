@@ -9,7 +9,7 @@ import crypto from "crypto";
 import { demoProducts } from "./catalog";
 import { contacts as defaultContacts } from "./site-config";
 
-export type SoulKey = "stufe" | "arredamento" | "elettrodomestici" | "ricambi";
+export type SoulKey = "stufe" | "arredamento" | "complementi" | "elettrodomestici" | "ricambi";
 
 export interface StoredProduct {
   id: string;

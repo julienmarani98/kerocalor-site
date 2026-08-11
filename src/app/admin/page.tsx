@@ -13,6 +13,7 @@ function categoryOptions(): CategoryOption[] {
   const opts: CategoryOption[] = [];
   for (const c of souls.stufe.categories) opts.push({ soul: "stufe", slug: c.slug, name: `Riscaldamento › ${c.name}` });
   for (const c of souls.arredamento.categories) opts.push({ soul: "arredamento", slug: c.slug, name: `Arredamento › ${c.name}` });
+  for (const c of souls.complementi.categories) opts.push({ soul: "complementi", slug: c.slug, name: `Complementi d’Arredo › ${c.name}` });
   for (const g of elettrodomestici.groups) opts.push({ soul: "elettrodomestici", slug: g.slug, name: `Elettrodomestici › ${g.name}` });
   return opts;
 }
