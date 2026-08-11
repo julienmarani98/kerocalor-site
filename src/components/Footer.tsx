@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { hours, nav } from "@/lib/site-config";
+import { hours, nav, legal } from "@/lib/site-config";
 import { waUrl, mailUrl, telHref } from "@/lib/links";
 import type { Settings } from "@/lib/store";
 import Logo from "@/components/Logo";
@@ -67,9 +67,13 @@ export default function Footer({ settings }: { settings: Settings }) {
       </div>
 
       <div className="border-t border-white/10">
-        <div className="container-site flex flex-col items-center justify-between gap-3 py-6 text-[11px] uppercase tracking-wider2 text-white/40 sm:flex-row">
-          <span>© {new Date().getFullYear()} Kerocalor S.r.l. · P.IVA —</span>
-          <span>Mornago (VA) · Italia</span>
+        <div className="container-site flex flex-col items-center justify-between gap-3 py-6 text-center text-[11px] uppercase tracking-wider2 text-white/40 sm:flex-row sm:text-left">
+          <span>
+            Copyright © {new Date().getFullYear()} Kerocalor. Tutti i diritti riservati
+          </span>
+          <span>
+            {legal.company} · P.IVA / C.F. {legal.vat} · {legal.address} · {legal.city}
+          </span>
         </div>
       </div>
     </footer>

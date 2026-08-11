@@ -18,6 +18,14 @@ export const contacts = {
   mapsQuery: "Kerocalor, Via Stazione 115, Mornago VA",
 };
 
+/** Dati legali per il footer (fissi, non gestiti da admin). */
+export const legal = {
+  company: "Kerocalor S.r.l.",
+  vat: "00240220129", // P.IVA / C.F.
+  address: "Via della Stazione 115",
+  city: "Mornago (VA) 21020",
+};
+
 export const hours = {
   weekdays: "Lun – Sab",
   morning: "8:30 – 12:00",
