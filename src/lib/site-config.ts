@@ -22,8 +22,12 @@ export const contacts = {
 export const legal = {
   company: "Kerocalor S.r.l.",
   vat: "00240220129", // P.IVA / C.F.
-  address: "Via della Stazione 115",
-  city: "Mornago (VA) 21020",
+  address: "Via Stazione, 115",
+  city: "21020 Mornago (VA)",
+  // TODO cliente: da visura camerale — obbligatori ex art. 2250 c.c.
+  rea: "", // es. "VA-123456"
+  capital: "", // es. "10.000,00 i.v."
+  pec: "", // es. "kerocalor@pec.it"
 };
 
 export const hours = {
@@ -103,6 +107,13 @@ export const nav = [
   { href: "/ricambi", label: "Ricambi" },
   { href: "/chi-siamo", label: "Chi siamo" },
   { href: "/contatti", label: "Contatti" },
+];
+
+/** Pagine legali, linkate nella barra bassa del footer. */
+export const legalNav = [
+  { href: "/privacy", label: "Privacy Policy" },
+  { href: "/cookie-policy", label: "Cookie Policy" },
+  { href: "/note-legali", label: "Note legali" },
 ];
 
 /** Nav con mega-menu a tendina (dropdown) per le sezioni con sottocategorie. */

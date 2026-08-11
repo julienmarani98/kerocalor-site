@@ -35,7 +35,7 @@ export default async function Ricambi() {
             </p>
 
             <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-              <a href={waUrl(s.whatsappHref, msg)} target="_blank" rel="noopener" className="btn-wa">
+              <a href={waUrl(s.whatsappHref, msg)} target="_blank" rel="noopener noreferrer" className="btn-wa">
                 Contattaci su WhatsApp
               </a>
               <a href={mailUrl(s.email, "Richiesta ricambio")} className="btn-ghost-white">

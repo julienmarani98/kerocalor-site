@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { hours, nav, legal } from "@/lib/site-config";
+import { hours, nav, legal, legalNav } from "@/lib/site-config";
 import { waUrl, mailUrl, telHref } from "@/lib/links";
 import type { Settings } from "@/lib/store";
 import Logo from "@/components/Logo";
@@ -47,7 +47,7 @@ export default function Footer({ settings }: { settings: Settings }) {
               <a href={telHref(contacts.phoneHref)} className="hover:text-white">Tel. {contacts.phone}</a>
             </li>
             <li>
-              <a href={waUrl(contacts.whatsappHref)} target="_blank" rel="noopener" className="hover:text-white">WhatsApp {contacts.whatsapp}</a>
+              <a href={waUrl(contacts.whatsappHref)} target="_blank" rel="noopener noreferrer" className="hover:text-white">WhatsApp {contacts.whatsapp}</a>
             </li>
             <li>
               <a href={mailUrl(contacts.email)} className="hover:text-white">{contacts.email}</a>
@@ -67,12 +67,27 @@ export default function Footer({ settings }: { settings: Settings }) {
       </div>
 
       <div className="border-t border-white/10">
-        <div className="container-site flex flex-col items-center justify-between gap-3 py-6 text-center text-[11px] uppercase tracking-wider2 text-white/40 sm:flex-row sm:text-left">
+        <nav className="container-site flex flex-wrap items-center gap-x-6 gap-y-2 py-5 text-[11px] uppercase tracking-wider2 text-white/55">
+          {legalNav.map((i) => (
+            <Link key={i.href} href={i.href} className="transition-colors hover:text-white">
+              {i.label}
+            </Link>
+          ))}
+        </nav>
+      </div>
+
+      <div className="border-t border-white/10">
+        <div className="container-site flex flex-col items-center justify-between gap-3 py-6 text-center text-[11px] uppercase tracking-wider2 text-white/55 sm:flex-row sm:text-left">
           <span>
             Copyright © {new Date().getFullYear()} Kerocalor. Tutti i diritti riservati
           </span>
           <span>
-            {legal.company} · P.IVA / C.F. {legal.vat} · {legal.address} · {legal.city}
+            {legal.company} · P.IVA / C.F. {legal.vat}
+            {legal.rea && ` · REA ${legal.rea}`}
+            {legal.capital && ` · Cap. soc. € ${legal.capital}`}
+            {" · "}
+            {legal.address} · {legal.city}
+            {legal.pec && ` · PEC ${legal.pec}`}
           </span>
         </div>
       </div>

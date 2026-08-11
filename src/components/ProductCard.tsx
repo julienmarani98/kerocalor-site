@@ -23,11 +23,16 @@ export default function ProductCard({ p, settings }: { p: StoredProduct; setting
         <h3 className="text-sm font-bold text-ink transition-colors duration-200 group-hover:text-ember">{p.name}</h3>
         {p.brand && <p className="mt-0.5 text-[11px] uppercase tracking-[0.14em] text-steel">{p.brand}</p>}
         {typeof p.price === "number" && (
-          <p className="mt-2 text-sm font-semibold text-ink">€ {p.price.toLocaleString("it-IT")}</p>
+          <p className="mt-2 text-sm font-semibold text-ink">
+            € {p.price.toLocaleString("it-IT")}
+            <span className="ml-1 text-[10px] font-normal uppercase tracking-[0.1em] text-steel">
+              IVA inclusa
+            </span>
+          </p>
         )}
 
         <div className="mt-auto flex gap-2 pt-4">
-          <a href={waUrl(settings.whatsappHref, enquiry)} target="_blank" rel="noopener" className="btn-wa flex-1 !px-3 !py-2 !text-[11px]">
+          <a href={waUrl(settings.whatsappHref, enquiry)} target="_blank" rel="noopener noreferrer" className="btn-wa flex-1 !px-3 !py-2 !text-[11px]">
             WhatsApp
           </a>
           <a href={mailUrl(settings.email, `Richiesta: ${p.name}`)} className="btn-light flex-1 !px-3 !py-2 !text-[11px]">

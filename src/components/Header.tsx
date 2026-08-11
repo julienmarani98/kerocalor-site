@@ -48,7 +48,7 @@ export default function Header({ settings }: { settings: Settings }) {
           <a
             href={waUrl(contacts.whatsappHref, "Salve, vorrei un'informazione.")}
             target="_blank"
-            rel="noopener"
+            rel="noopener noreferrer"
             aria-label="Scrivici su WhatsApp"
             title="Scrivici su WhatsApp"
             className="icon-btn icon-btn-wa"
@@ -110,7 +110,7 @@ export default function Header({ settings }: { settings: Settings }) {
             <a href={telHref(contacts.phoneHref)} className="btn-ghost-white">
               <PhoneIcon className="h-4 w-4" /> Chiama
             </a>
-            <a href={waUrl(contacts.whatsappHref)} target="_blank" rel="noopener" className="btn-wa">
+            <a href={waUrl(contacts.whatsappHref)} target="_blank" rel="noopener noreferrer" className="btn-wa">
               <WhatsAppIcon className="h-4 w-4" /> WhatsApp
             </a>
           </div>

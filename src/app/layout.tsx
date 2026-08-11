@@ -19,7 +19,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="it" className={inter.variable} suppressHydrationWarning>
       <head>
-        {/* Arma i reveal a scroll PRIMA del paint: senza JS il contenuto resta visibile. */}
+        {/* Arma i reveal a scroll PRIMA del paint: senza JS il contenuto resta visibile.
+            Autorizzato in CSP per hash: se cambi questa stringa aggiorna
+            INLINE_SCRIPT_HASH in src/middleware.ts. */}
         <script
           dangerouslySetInnerHTML={{
             __html:

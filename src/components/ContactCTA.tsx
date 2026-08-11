@@ -23,7 +23,7 @@ export default async function ContactCTA({
           data-reveal
           style={{ "--reveal-delay": "120ms" } as React.CSSProperties}
         >
-          <a href={waUrl(s.whatsappHref, "Salve, vorrei un'informazione.")} target="_blank" rel="noopener" className="btn-wa">
+          <a href={waUrl(s.whatsappHref, "Salve, vorrei un'informazione.")} target="_blank" rel="noopener noreferrer" className="btn-wa">
             <WhatsAppIcon className="h-4 w-4" /> WhatsApp {s.whatsapp}
           </a>
           <a href={telHref(s.phoneHref)} className="btn-ghost-white">

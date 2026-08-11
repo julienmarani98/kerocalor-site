@@ -2,6 +2,7 @@ import { hours, contacts as brand } from "@/lib/site-config";
 import { getSettings } from "@/lib/store";
 import { waUrl, mailUrl, telHref } from "@/lib/links";
 import DirectionsChooser from "@/components/DirectionsChooser";
+import MapEmbed from "@/components/MapEmbed";
 import { PhoneIcon, WhatsAppIcon, MailIcon, PinIcon } from "@/components/icons";
 
 export const metadata = {
@@ -12,7 +13,6 @@ export const metadata = {
 
 export default async function Contatti() {
   const s = await getSettings();
-  const map = `https://www.google.com/maps?q=${encodeURIComponent(brand.mapsQuery)}&output=embed`;
   return (
     <>
       <section className="border-b border-line bg-ash">
@@ -60,7 +60,7 @@ export default async function Contatti() {
           </table>
 
           <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-            <a href={waUrl(s.whatsappHref, "Salve, vorrei un'informazione.")} target="_blank" rel="noopener" className="btn-wa">
+            <a href={waUrl(s.whatsappHref, "Salve, vorrei un'informazione.")} target="_blank" rel="noopener noreferrer" className="btn-wa">
               <WhatsAppIcon className="h-4 w-4" /> WhatsApp
             </a>
             <a href={telHref(s.phoneHref)} className="btn-light">
@@ -73,13 +73,7 @@ export default async function Contatti() {
         </div>
 
         <div className="min-h-[320px] bg-ink md:min-h-[360px]">
-          <iframe
-            title="Mappa Kerocalor"
-            src={map}
-            className="h-full min-h-[320px] w-full md:min-h-[360px]"
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-          />
+          <MapEmbed query={brand.mapsQuery} address={s.address} city={s.city} />
         </div>
       </section>
 
