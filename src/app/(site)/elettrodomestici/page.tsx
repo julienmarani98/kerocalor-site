@@ -1,6 +1,7 @@
 import { elettrodomestici } from "@/lib/site-config";
-import { getProductsByCategory, getSettings } from "@/lib/store";
+import { getProductsByCategory, getSettings, isCatalogNoticeActive } from "@/lib/store";
 import ProductGrid from "@/components/ProductGrid";
+import CatalogNotice from "@/components/CatalogNotice";
 import ContactCTA from "@/components/ContactCTA";
 
 export const metadata = {
@@ -73,7 +74,11 @@ export default async function Elettrodomestici() {
                 <p className="mt-3 max-w-xl text-sm text-ink/70">{groupCopy[g.slug]}</p>
               </div>
             </div>
-            <ProductGrid products={g.products} settings={settings} />
+            {isCatalogNoticeActive(settings, g.slug) ? (
+              <CatalogNotice settings={settings} />
+            ) : (
+              <ProductGrid products={g.products} settings={settings} />
+            )}
           </div>
         </section>
       ))}

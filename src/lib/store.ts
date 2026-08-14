@@ -31,6 +31,13 @@ export interface Settings {
   email: string;
   address: string;
   city: string;
+  /** Per categoria (slug): true/assente = mostra "CATALOGO IN AGGIORNAMENTO" al posto delle schede. */
+  catalogNotice?: Record<string, boolean>;
+}
+
+/** Il messaggio è ATTIVO di default: si spegne solo con un false esplicito salvato dall'admin. */
+export function isCatalogNoticeActive(settings: Settings, slug: string): boolean {
+  return settings.catalogNotice?.[slug] !== false;
 }
 
 interface Content {

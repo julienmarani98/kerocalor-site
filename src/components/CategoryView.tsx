@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Soul, souls } from "@/lib/site-config";
-import { getProductsByCategory, getSettings } from "@/lib/store";
+import { getProductsByCategory, getSettings, isCatalogNoticeActive } from "@/lib/store";
 import ProductGrid from "@/components/ProductGrid";
+import CatalogNotice from "@/components/CatalogNotice";
 import ContactCTA from "@/components/ContactCTA";
 
 export default async function CategoryView({ soul, slug }: { soul: Soul; slug: string }) {
@@ -37,12 +38,18 @@ export default async function CategoryView({ soul, slug }: { soul: Soul; slug: s
       </section>
 
       <section className="container-site py-12 sm:py-16 lg:py-20">
-        <ProductGrid products={products} settings={settings} />
-        <p className="mt-12 max-w-2xl text-sm text-steel">
-          Gli articoli mostrati sono indicativi: il catalogo viene aggiornato di
-          continuo. Non trovi quello che cerchi? Scrivici, abbiamo molto altro in
-          esposizione.
-        </p>
+        {isCatalogNoticeActive(settings, slug) ? (
+          <CatalogNotice settings={settings} />
+        ) : (
+          <>
+            <ProductGrid products={products} settings={settings} />
+            <p className="mt-12 max-w-2xl text-sm text-steel">
+              Gli articoli mostrati sono indicativi: il catalogo viene aggiornato di
+              continuo. Non trovi quello che cerchi? Scrivici, abbiamo molto altro in
+              esposizione.
+            </p>
+          </>
+        )}
       </section>
 
       <ContactCTA title="Ti interessa un modello?" text="Contattaci per disponibilità, prezzo e sopralluogo gratuito. Rispondiamo via WhatsApp o email." />

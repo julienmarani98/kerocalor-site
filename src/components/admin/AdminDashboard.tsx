@@ -146,6 +146,32 @@ export default function AdminDashboard({ initialProducts, initialSettings, categ
   const input = "w-full rounded-none border border-line bg-white px-3 py-2 text-sm text-ink outline-none focus:border-carbon";
   const label = "block text-[11px] font-medium uppercase tracking-[0.12em] text-steel";
 
+  /* --- Avviso "CATALOGO IN AGGIORNAMENTO" per categoria (attivo se non esplicitamente false) --- */
+  const noticeActive = (slug: string) => settings.catalogNotice?.[slug] !== false;
+
+  async function toggleNotice(slug: string, active: boolean) {
+    const map: Record<string, boolean> = {};
+    for (const c of categories) map[c.slug] = c.slug === slug ? active : noticeActive(c.slug);
+    setSaving(true);
+    setMsg("");
+    try {
+      const res = await fetch("/api/admin/settings", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ catalogNotice: map }),
+      });
+      const d = await res.json();
+      if (!res.ok) throw new Error(d.error || "Errore");
+      setSettings(d.settings);
+      const name = categories.find((c) => c.slug === slug)?.name ?? slug;
+      setMsg(active ? `${name}: messaggio ATTIVO, schede nascoste` : `${name}: messaggio spento, schede visibili`);
+    } catch (e) {
+      setMsg(e instanceof Error ? e.message : "Errore");
+    } finally {
+      setSaving(false);
+    }
+  }
+
   return (
     <div className="min-h-screen bg-ash text-ink">
       {/* Top bar */}
@@ -265,6 +291,38 @@ export default function AdminDashboard({ initialProducts, initialSettings, categ
                 <button onClick={() => removeProduct(p.id)} className="text-[12px] font-medium uppercase tracking-[0.08em] text-ember hover:underline">Elimina</button>
               </div>
             ))}
+          </div>
+        </section>
+
+        {/* CATALOGO ONLINE — avviso per categoria */}
+        <section className="mt-12 border border-line bg-white p-5 sm:p-7">
+          <h2 className="text-lg font-extrabold uppercase tracking-[0.04em]">Catalogo online</h2>
+          <p className="mt-1 text-sm text-steel">
+            Con l&rsquo;interruttore <strong>attivo</strong> la categoria mostra il messaggio
+            &ldquo;CATALOGO IN AGGIORNAMENTO&rdquo; al posto delle schede prodotto. Spegnilo per
+            tornare a mostrare le schede. Salvataggio immediato.
+          </p>
+          <div className="mt-5 divide-y divide-line border border-line">
+            {categories.map((c) => {
+              const on = noticeActive(c.slug);
+              return (
+                <label key={c.slug} className="flex cursor-pointer items-center justify-between gap-4 bg-white px-4 py-3 hover:bg-ash">
+                  <span className="min-w-0">
+                    <span className="block truncate text-sm font-bold">{c.name}</span>
+                    <span className={`text-[11px] uppercase tracking-[0.1em] ${on ? "text-ember" : "text-steel"}`}>
+                      {on ? "Messaggio attivo · schede nascoste" : "Schede visibili"}
+                    </span>
+                  </span>
+                  <input
+                    type="checkbox"
+                    checked={on}
+                    disabled={saving}
+                    onChange={(e) => toggleNotice(c.slug, e.target.checked)}
+                    className="h-5 w-5 shrink-0 accent-[#F03A17]"
+                  />
+                </label>
+              );
+            })}
           </div>
         </section>
 
