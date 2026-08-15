@@ -40,9 +40,32 @@ export function isCatalogNoticeActive(settings: Settings, slug: string): boolean
   return settings.catalogNotice?.[slug] !== false;
 }
 
+/** Stato di autenticazione persistito (mai inviato al client). */
+export interface AuthState {
+  /** scrypt "salt:hash" — se presente sostituisce ADMIN_PASSWORD dell'env. */
+  passwordHash?: string;
+  /** Incrementato a ogni cambio password: invalida le sessioni precedenti. */
+  passwordVersion: number;
+  /** sha256 del token di reset in circolazione + scadenza (ms epoch). */
+  resetTokenHash?: string;
+  resetExpires?: number;
+}
+
+/** Configurazione SMTP per le email di sistema (reset password). `pass` mai restituita al client. */
+export interface SmtpConfig {
+  host: string;
+  port: number;
+  secure: boolean;
+  user: string;
+  pass: string;
+  from: string;
+}
+
 interface Content {
   products: StoredProduct[];
   settings: Settings;
+  auth?: AuthState;
+  smtp?: SmtpConfig;
 }
 
 const DATA_DIR = process.env.DATA_DIR || path.join(process.cwd(), "data");
@@ -145,4 +168,37 @@ export async function saveSettings(patch: Partial<Settings>): Promise<Settings> 
   c.settings = { ...c.settings, ...patch };
   await persist(c);
   return c.settings;
+}
+
+/* ---------- Auth state (server-only) ---------- */
+export async function getAuthState(): Promise<AuthState> {
+  const c = await read();
+  if (!c.auth) c.auth = { passwordVersion: 0 };
+  return c.auth;
+}
+export async function saveAuthState(patch: Partial<AuthState>): Promise<AuthState> {
+  const c = await read();
+  c.auth = { ...(c.auth ?? { passwordVersion: 0 }), ...patch };
+  await persist(c);
+  return c.auth;
+}
+
+/* ---------- SMTP (server-only) ---------- */
+/** Priorità: config salvata dall'admin → variabili d'ambiente SMTP_* → null. */
+export async function getSmtpConfig(): Promise<SmtpConfig | null> {
+  const c = await read();
+  if (c.smtp?.host && c.smtp.user && c.smtp.pass) return c.smtp;
+  const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_FROM } = process.env;
+  if (SMTP_HOST && SMTP_USER && SMTP_PASS) {
+    const port = Number(SMTP_PORT || 465);
+    return { host: SMTP_HOST, port, secure: port === 465, user: SMTP_USER, pass: SMTP_PASS, from: SMTP_FROM || SMTP_USER };
+  }
+  return null;
+}
+export async function saveSmtpConfig(patch: Partial<SmtpConfig>): Promise<SmtpConfig> {
+  const c = await read();
+  const base: SmtpConfig = c.smtp ?? { host: "", port: 465, secure: true, user: "", pass: "", from: "" };
+  c.smtp = { ...base, ...patch };
+  await persist(c);
+  return c.smtp;
 }

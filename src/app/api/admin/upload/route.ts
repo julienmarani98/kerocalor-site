@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 const MAX_BYTES = 12 * 1024 * 1024; // 12MB
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
-  if (!isAuthed()) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  if (!(await isAuthed())) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   try {
     const form = await req.formData();
     const file = form.get("file");

@@ -6,7 +6,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }): Promise<NextResponse> {
-  if (!isAuthed()) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  if (!(await isAuthed())) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   const b = await req.json().catch(() => ({}));
   const patch: Record<string, unknown> = {};
   if (b.name !== undefined) patch.name = String(b.name).trim();
@@ -22,7 +22,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 }
 
 export async function DELETE(_req: NextRequest, { params }: { params: { id: string } }): Promise<NextResponse> {
-  if (!isAuthed()) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  if (!(await isAuthed())) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   const ok = await deleteProduct(params.id);
   return NextResponse.json({ ok });
 }

@@ -6,12 +6,12 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function GET(): Promise<NextResponse> {
-  if (!isAuthed()) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  if (!(await isAuthed())) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   return NextResponse.json({ settings: await getSettings() });
 }
 
 export async function PUT(req: NextRequest): Promise<NextResponse> {
-  if (!isAuthed()) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  if (!(await isAuthed())) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   const b = await req.json().catch(() => ({}));
   const patch: Record<string, unknown> = {};
   for (const k of ["phone", "phoneHref", "whatsapp", "whatsappHref", "email", "address", "city"]) {

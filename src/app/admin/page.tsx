@@ -1,8 +1,9 @@
 import { redirect } from "next/navigation";
 import { isAuthed } from "@/lib/auth";
-import { getProducts, getSettings } from "@/lib/store";
+import { getProducts, getSettings, getSmtpConfig } from "@/lib/store";
+import { RESET_EMAIL_TO } from "@/lib/mailer";
 import { souls, elettrodomestici } from "@/lib/site-config";
-import AdminDashboard, { CategoryOption } from "@/components/admin/AdminDashboard";
+import AdminDashboard, { CategoryOption, SmtpView } from "@/components/admin/AdminDashboard";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -18,8 +19,23 @@ function categoryOptions(): CategoryOption[] {
   return opts;
 }
 
+/** Vista SMTP per il client: mai la password. */
+async function smtpView(): Promise<SmtpView> {
+  const c = await getSmtpConfig();
+  return {
+    host: c?.host ?? "",
+    port: c?.port ?? 465,
+    secure: c?.secure ?? true,
+    user: c?.user ?? "",
+    from: c?.from ?? "",
+    hasPass: Boolean(c?.pass),
+    configured: c !== null,
+    resetTo: RESET_EMAIL_TO,
+  };
+}
+
 export default async function AdminPage() {
-  if (!isAuthed()) redirect("/admin/login");
-  const [products, settings] = await Promise.all([getProducts(), getSettings()]);
-  return <AdminDashboard initialProducts={products} initialSettings={settings} categories={categoryOptions()} />;
+  if (!(await isAuthed())) redirect("/admin/login");
+  const [products, settings, smtp] = await Promise.all([getProducts(), getSettings(), smtpView()]);
+  return <AdminDashboard initialProducts={products} initialSettings={settings} categories={categoryOptions()} initialSmtp={smtp} />;
 }

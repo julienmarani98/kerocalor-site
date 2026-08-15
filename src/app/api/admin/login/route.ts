@@ -45,13 +45,13 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     );
   }
   const body = await req.json().catch(() => ({}));
-  if (!checkPassword(body?.password ?? "")) {
+  if (!(await checkPassword(body?.password ?? ""))) {
     recordFailure(ip);
     return NextResponse.json({ error: "Password errata" }, { status: 401 });
   }
   attempts.delete(ip);
   const res = NextResponse.json({ ok: true });
-  res.cookies.set(COOKIE_NAME, makeToken(), {
+  res.cookies.set(COOKIE_NAME, await makeToken(), {
     httpOnly: true,
     sameSite: "lax",
     path: "/",

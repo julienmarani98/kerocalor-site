@@ -8,12 +8,12 @@ export const dynamic = "force-dynamic";
 const SOULS: SoulKey[] = ["stufe", "arredamento", "complementi", "elettrodomestici", "ricambi"];
 
 export async function GET(): Promise<NextResponse> {
-  if (!isAuthed()) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  if (!(await isAuthed())) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   return NextResponse.json({ products: await getProducts() });
 }
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
-  if (!isAuthed()) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  if (!(await isAuthed())) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   const b = await req.json().catch(() => ({}));
   if (!b?.name || !b?.category) {
     return NextResponse.json({ error: "Nome e categoria sono obbligatori" }, { status: 400 });

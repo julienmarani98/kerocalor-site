@@ -10,10 +10,22 @@ export interface CategoryOption {
   name: string;
 }
 
+export interface SmtpView {
+  host: string;
+  port: number;
+  secure: boolean;
+  user: string;
+  from: string;
+  hasPass: boolean;
+  configured: boolean;
+  resetTo: string;
+}
+
 interface Props {
   initialProducts: StoredProduct[];
   initialSettings: Settings;
   categories: CategoryOption[];
+  initialSmtp: SmtpView;
 }
 
 const EMPTY = {
@@ -26,10 +38,13 @@ const EMPTY = {
   featured: false,
 };
 
-export default function AdminDashboard({ initialProducts, initialSettings, categories }: Props) {
+export default function AdminDashboard({ initialProducts, initialSettings, categories, initialSmtp }: Props) {
   const router = useRouter();
   const [products, setProducts] = useState(initialProducts);
   const [settings, setSettings] = useState(initialSettings);
+  const [smtp, setSmtp] = useState(initialSmtp);
+  const [smtpPass, setSmtpPass] = useState("");
+  const [pwForm, setPwForm] = useState({ current: "", next: "", repeat: "" });
   const [form, setForm] = useState({ ...EMPTY });
   const [format, setFormat] = useState<"square" | "wide" | "portrait">("square");
   const [uploading, setUploading] = useState(false);
@@ -145,6 +160,69 @@ export default function AdminDashboard({ initialProducts, initialSettings, categ
 
   const input = "w-full rounded-none border border-line bg-white px-3 py-2 text-sm text-ink outline-none focus:border-carbon";
   const label = "block text-[11px] font-medium uppercase tracking-[0.12em] text-steel";
+
+  /* --- Sicurezza: cambio password + SMTP per il reset via email --- */
+  async function changePassword(e: React.FormEvent) {
+    e.preventDefault();
+    setMsg("");
+    if (pwForm.next !== pwForm.repeat) {
+      setMsg("Le due password nuove non coincidono");
+      return;
+    }
+    setSaving(true);
+    try {
+      const res = await fetch("/api/admin/password", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ current: pwForm.current, password: pwForm.next }),
+      });
+      const d = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(d.error || "Errore");
+      setPwForm({ current: "", next: "", repeat: "" });
+      setMsg("Password aggiornata. Le altre sessioni aperte sono state disconnesse.");
+    } catch (e) {
+      setMsg(e instanceof Error ? e.message : "Errore");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  async function saveSmtp(e: React.FormEvent) {
+    e.preventDefault();
+    setSaving(true);
+    setMsg("");
+    try {
+      const res = await fetch("/api/admin/smtp", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ host: smtp.host, port: smtp.port, secure: smtp.secure, user: smtp.user, from: smtp.from, pass: smtpPass }),
+      });
+      const d = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(d.error || "Errore");
+      setSmtp(d.smtp);
+      setSmtpPass("");
+      setMsg("Impostazioni email salvate");
+    } catch (e) {
+      setMsg(e instanceof Error ? e.message : "Errore");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  async function testSmtp() {
+    setSaving(true);
+    setMsg("");
+    try {
+      const res = await fetch("/api/admin/smtp", { method: "POST" });
+      const d = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(d.error || "Errore");
+      setMsg(`Email di prova inviata a ${d.to}: controlla la casella.`);
+    } catch (e) {
+      setMsg(e instanceof Error ? e.message : "Errore");
+    } finally {
+      setSaving(false);
+    }
+  }
 
   /* --- Avviso "CATALOGO IN AGGIORNAMENTO" per categoria (attivo se non esplicitamente false) --- */
   const noticeActive = (slug: string) => settings.catalogNotice?.[slug] !== false;
@@ -340,6 +418,58 @@ export default function AdminDashboard({ initialProducts, initialSettings, categ
             <Field label="Città / CAP" v={settings.city} on={(v) => setSettings({ ...settings, city: v })} cls={input} lcls={label} />
             <div className="sm:col-span-2">
               <button type="submit" disabled={saving} className="btn-dark disabled:opacity-50">Salva contatti</button>
+            </div>
+          </form>
+        </section>
+
+        {/* SICUREZZA */}
+        <section className="mt-12 border border-line bg-white p-5 sm:p-7">
+          <h2 className="text-lg font-extrabold uppercase tracking-[0.04em]">Sicurezza</h2>
+
+          <h3 className="mt-5 text-[12px] font-extrabold uppercase tracking-[0.12em] text-ink">Cambia password</h3>
+          <form onSubmit={changePassword} className="mt-3 grid gap-4 sm:grid-cols-3">
+            <div>
+              <label className={label}>Password attuale</label>
+              <input className={input} type="password" autoComplete="current-password" value={pwForm.current} onChange={(e) => setPwForm({ ...pwForm, current: e.target.value })} />
+            </div>
+            <div>
+              <label className={label}>Nuova password (min. 10)</label>
+              <input className={input} type="password" autoComplete="new-password" value={pwForm.next} onChange={(e) => setPwForm({ ...pwForm, next: e.target.value })} />
+            </div>
+            <div>
+              <label className={label}>Ripeti nuova password</label>
+              <input className={input} type="password" autoComplete="new-password" value={pwForm.repeat} onChange={(e) => setPwForm({ ...pwForm, repeat: e.target.value })} />
+            </div>
+            <div className="sm:col-span-3">
+              <button type="submit" disabled={saving} className="btn-dark disabled:opacity-50">Aggiorna password</button>
+            </div>
+          </form>
+
+          <h3 className="mt-10 text-[12px] font-extrabold uppercase tracking-[0.12em] text-ink">
+            Email di sistema (reset password)
+            <span className={`ml-3 px-1.5 py-0.5 text-[9px] ${smtp.configured ? "bg-ink text-white" : "bg-ember text-white"}`}>
+              {smtp.configured ? "Configurata" : "Non configurata"}
+            </span>
+          </h3>
+          <p className="mt-1 text-sm text-steel">
+            Serve una casella email da cui inviare il link di reset (che arriva sempre a <strong>{smtp.resetTo}</strong>).
+            Con le caselle Hostinger: server <code>smtp.hostinger.com</code>, porta <code>465</code>, utente = indirizzo email completo.
+          </p>
+          <form onSubmit={saveSmtp} className="mt-4 grid gap-4 sm:grid-cols-2">
+            <Field label="Server SMTP" v={smtp.host} on={(v) => setSmtp({ ...smtp, host: v })} cls={input} lcls={label} />
+            <div>
+              <label className={label}>Porta</label>
+              <input className={input} type="number" min="1" max="65535" value={smtp.port} onChange={(e) => { const p = Number(e.target.value); setSmtp({ ...smtp, port: p, secure: p === 465 }); }} />
+            </div>
+            <Field label="Utente (email completa)" v={smtp.user} on={(v) => setSmtp({ ...smtp, user: v })} cls={input} lcls={label} />
+            <div>
+              <label className={label}>Password casella {smtp.hasPass && <span className="normal-case tracking-normal text-steel">(impostata — lascia vuoto per non cambiarla)</span>}</label>
+              <input className={input} type="password" autoComplete="off" value={smtpPass} onChange={(e) => setSmtpPass(e.target.value)} placeholder={smtp.hasPass ? "••••••••" : ""} />
+            </div>
+            <Field label="Mittente (opzionale, default = utente)" v={smtp.from} on={(v) => setSmtp({ ...smtp, from: v })} cls={input} lcls={label} />
+            <div className="flex flex-wrap items-end gap-3 sm:col-span-2">
+              <button type="submit" disabled={saving} className="btn-dark disabled:opacity-50">Salva impostazioni email</button>
+              <button type="button" onClick={testSmtp} disabled={saving || !smtp.configured} className="btn-light disabled:opacity-50">Invia email di prova</button>
             </div>
           </form>
         </section>

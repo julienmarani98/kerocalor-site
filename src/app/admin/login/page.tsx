@@ -7,7 +7,24 @@ export default function AdminLogin() {
   const router = useRouter();
   const [pw, setPw] = useState("");
   const [err, setErr] = useState("");
+  const [info, setInfo] = useState("");
   const [loading, setLoading] = useState(false);
+
+  async function forgot() {
+    setErr("");
+    setInfo("");
+    setLoading(true);
+    try {
+      const res = await fetch("/api/admin/forgot", { method: "POST" });
+      const d = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(d.error || "Richiesta fallita");
+      setInfo(`Email inviata a ${d.to}: apri il link entro 30 minuti per scegliere una nuova password.`);
+    } catch (e) {
+      setErr(e instanceof Error ? e.message : "Errore");
+    } finally {
+      setLoading(false);
+    }
+  }
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -51,8 +68,17 @@ export default function AdminLogin() {
           placeholder="••••••••"
         />
         {err && <p className="mt-3 text-sm text-ember">{err}</p>}
+        {info && <p className="mt-3 text-sm text-white/80">{info}</p>}
         <button type="submit" disabled={loading} className="btn-wa mt-6 w-full disabled:opacity-50">
           {loading ? "Accesso…" : "Entra"}
+        </button>
+        <button
+          type="button"
+          onClick={forgot}
+          disabled={loading}
+          className="mt-4 w-full text-[11px] uppercase tracking-[0.14em] text-white/50 underline-offset-4 hover:text-white hover:underline disabled:opacity-50"
+        >
+          Password dimenticata? Invia link di reset a info@kerocalor.it
         </button>
       </form>
     </div>
