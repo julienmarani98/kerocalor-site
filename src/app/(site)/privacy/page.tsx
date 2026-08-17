@@ -34,7 +34,7 @@ export default async function Privacy() {
         <a href={`mailto:${s.email}`}>{s.email}</a>
         {legal.pec ? <> · PEC {legal.pec}</> : <> · PEC [DA COMPLETARE]</>}.
         <br />
-        Legale rappresentante / referente privacy: [DA COMPLETARE].
+        Legale rappresentante / referente privacy: Donato Lora.
       </p>
       <p>
         Non è stato nominato un Responsabile della protezione dei dati (DPO), non
