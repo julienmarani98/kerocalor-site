@@ -25,9 +25,9 @@ export const legal = {
   address: "Via Stazione, 115",
   city: "21020 Mornago (VA)",
   // TODO cliente: da visura camerale — obbligatori ex art. 2250 c.c.
-  rea: "", // es. "VA-123456"
-  capital: "", // es. "10.000,00 i.v."
-  pec: "", // es. "kerocalor@pec.it"
+  rea: "VA 119332", // Registro Imprese Varese
+  capital: "118.000,00", // reso come "€ 118.000,00"
+  pec: "kerocalor@pec.it",
 };
 
 export const hours = {
