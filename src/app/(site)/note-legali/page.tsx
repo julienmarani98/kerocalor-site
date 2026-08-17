@@ -13,10 +13,6 @@ export default async function NoteLegali() {
   const s = await getSettings();
   return (
     <LegalPage title="Note legali" updated="agosto 2026">
-      <p className="todo">
-        <strong>Bozza da validare.</strong> I campi [DA COMPLETARE] vanno compilati con
-        i dati di visura camerale prima della pubblicazione sul dominio definitivo.
-      </p>
 
       <h2>1. Dati societari</h2>
       <p>

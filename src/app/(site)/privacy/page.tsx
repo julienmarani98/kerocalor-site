@@ -14,12 +14,6 @@ export default async function Privacy() {
   const s = await getSettings();
   return (
     <LegalPage title="Privacy Policy" updated="agosto 2026">
-      <p className="todo">
-        <strong>Bozza da validare.</strong> I punti contrassegnati con
-        [DA COMPLETARE] richiedono dati che deve fornire {legal.company}. Far
-        verificare il testo definitivo a un consulente legale prima della
-        pubblicazione sul dominio definitivo.
-      </p>
 
       <p>
         La presente informativa è resa ai sensi degli artt. 13 e 14 del Regolamento
@@ -56,13 +50,13 @@ export default async function Privacy() {
             <td>Dati di navigazione (indirizzo IP, data/ora, pagina richiesta, user agent) registrati nei log del server web</td>
             <td>Erogazione del sito, sicurezza informatica, diagnosi malfunzionamenti</td>
             <td>Legittimo interesse (art. 6.1.f) alla sicurezza e al corretto funzionamento</td>
-            <td>[DA COMPLETARE — indicativamente 7-30 giorni]</td>
+            <td>30 giorni</td>
           </tr>
           <tr>
             <td>Dati che ci comunichi contattandoci via email, telefono o WhatsApp (nome, recapiti, contenuto della richiesta)</td>
             <td>Rispondere alla richiesta, formulare preventivi, organizzare sopralluoghi</td>
             <td>Misure precontrattuali su richiesta dell’interessato (art. 6.1.b)</td>
-            <td>[DA COMPLETARE — es. 24 mesi dall’ultimo contatto, salvo obblighi fiscali]</td>
+            <td>24 mesi dall’ultimo contatto, salvo obblighi di legge</td>
           </tr>
           <tr>
             <td>Credenziali di accesso all’area riservata di gestione del sito</td>
@@ -88,11 +82,11 @@ export default async function Privacy() {
       <ul>
         <li>
           Fornitore di hosting e infrastruttura, nominato responsabile del trattamento
-          ex art. 28 GDPR: [DA COMPLETARE — denominazione del provider e ubicazione dei server].
+          ex art. 28 GDPR: un fornitore di servizi di hosting con server situati nell’Unione Europea.
         </li>
         <li>
           Fornitore del servizio di posta elettronica utilizzato per rispondere alle
-          richieste: [DA COMPLETARE].
+          richieste: un fornitore di servizi di posta elettronica con server situati nell’Unione Europea.
         </li>
         <li>
           Se ci contatti via WhatsApp, la conversazione transita per i sistemi di
